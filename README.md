@@ -1,0 +1,1 @@
+Firefox Browser Extension to hide or show the Youtube video controls when paused

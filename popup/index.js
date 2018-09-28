@@ -1,9 +1,29 @@
 document.getElementById('show-btn').onclick = function () {
-    showControls()
+    changeVisibility('show');
 }
 
 document.getElementById('hide-btn').onclick = function () {
-    hideControls()
+    changeVisibility('hide');
+}
+
+
+function changeVisibility(msg) {
+    if (document.getElementById('tab-opt-1').checked) {
+        sendMessage({command: msg}, { active: true, currentWindow: true, });
+    } else {
+        sendMessage({command: msg}, {});
+    }
+}
+
+function sendMessage(msg, params) {
+    browser.tabs.query(params)
+        .then(tabs => {
+            tabs.forEach(tab => {
+                console.log("Sent msg", msg, tab.id);
+                browser.tabs.sendMessage(tab.id, msg);
+            })
+        })
+        .catch(reportExecuteScriptError);
 }
 
 function reportExecuteScriptError() {
@@ -12,27 +32,6 @@ function reportExecuteScriptError() {
 
 
 
-
-function showControls() {
-    browser.tabs.query({ active: true, currentWindow: true })
-        .then(tabs => {
-            browser.tabs.sendMessage(tabs[0].id, {
-                command: "show"
-            });
-        })
-        .catch(reportExecuteScriptError);
-}
-
-function hideControls() {
-    browser.tabs.query({ active: true, currentWindow: true })
-        .then(tabs => {
-            browser.tabs.sendMessage(tabs[0].id, {
-                command: "hide"
-            });
-        })
-        .catch(reportExecuteScriptError);
-}
-
 browser.tabs.executeScript({ file: "/zen.js" })
-    .then(listenForClicks)
+    .then(console.log("Ready"))
     .catch(reportExecuteScriptError);

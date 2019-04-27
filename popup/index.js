@@ -29,9 +29,3 @@ function sendMessage(msg, params) {
 function reportExecuteScriptError() {
     console.error("Error loading script");
 }
-
-
-
-browser.tabs.executeScript({ file: "/zen.js" })
-    .then(console.log("Ready"))
-    .catch(reportExecuteScriptError);

@@ -11,7 +11,8 @@
     },
 
     "permissions": [
-        "activeTab",
+        "activeTab", 
+        "idle",
         "*://*.youtube.com/*"
     ],
 
@@ -20,5 +21,12 @@
         "default_icon": "icons/zen-min-96.png",
         "default_title": "Youtube Zen",
         "default_popup": "popup/index.html"
-    }
+    },
+
+    "content_scripts": [
+        {
+          "matches": ["*://*.youtube.com/*"],
+          "js": ["zen.js"]
+        }
+      ]
 }

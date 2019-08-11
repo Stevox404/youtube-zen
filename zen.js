@@ -1,9 +1,15 @@
 var hidden = false;
 
-var gradient = document.getElementsByClassName('ytp-gradient-bottom')[0];
+var gradientTop = document.getElementsByClassName('ytp-gradient-top')[0];
+var gradientBtm = document.getElementsByClassName('ytp-gradient-bottom')[0];
 var control = document.getElementsByClassName('ytp-chrome-bottom')[0];
 var topBtns = document.getElementsByClassName('ytp-chrome-top-buttons')[0];
 var title = document.getElementsByClassName('ytp-title')[0];
+var annotation = document.getElementsByClassName('annotation')[0];
+
+// var player =
+//           document.getElementById('movie_player') ||
+//           document.getElementsByTagName('embed')[0];
 
 document.addEventListener('keypress', toggleVisibility);
 
@@ -14,19 +20,23 @@ function toggleVisibility(e) {
 }
 
 function hide() {
-    gradient.style.display = 'none';
+    gradientTop.style.display = 'none';
+    gradientBtm.style.display = 'none';
     control.style.display = 'none';
     topBtns.style.display = 'none';
     title.style.display = 'none';
+    annotation.style.display = 'none';
 
     hidden = true;
 }
 
 function show() {
-    gradient.style.display = '';
+    gradientTop.style.display = '';
+    gradientBtm.style.display = '';
     control.style.display = '';
     topBtns.style.display = '';
     title.style.display = '';
+    annotation.style.display = '';
     
     hidden = false;
 }

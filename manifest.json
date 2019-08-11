@@ -11,8 +11,7 @@
     },
 
     "permissions": [
-        "activeTab", 
-        "idle",
+        "activeTab",
         "*://*.youtube.com/*"
     ],
 
@@ -26,6 +25,7 @@
     "content_scripts": [
         {
           "matches": ["*://*.youtube.com/*"],
+          "all_frames": true,
           "js": ["zen.js"]
         }
       ]

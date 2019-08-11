@@ -8,19 +8,16 @@ document.getElementById('hide-btn').onclick = function () {
 
 
 function changeVisibility(msg) {
-    if (document.getElementById('tab-opt-1').checked) {
-        sendMessage({command: msg}, { active: true, currentWindow: true, });
-    } else {
-        sendMessage({command: msg}, {});
-    }
+    sendMessage({command: msg}, { active: true, currentWindow: true, });
 }
 
 function sendMessage(msg, params) {
     browser.tabs.query(params)
         .then(tabs => {
+            console.log({tabs, msg})
             tabs.forEach(tab => {
-                console.log("Sent msg", msg, tab.id);
                 browser.tabs.sendMessage(tab.id, msg);
+                console.log("Sent msg", msg, tab.id);
             })
         })
         .catch(reportExecuteScriptError);

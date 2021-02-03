@@ -14,10 +14,8 @@ function changeVisibility(msg) {
 function sendMessage(msg, params) {
     browser.tabs.query(params)
         .then(tabs => {
-            console.log({tabs, msg})
             tabs.forEach(tab => {
                 browser.tabs.sendMessage(tab.id, msg);
-                console.log("Sent msg", msg, tab.id);
             })
         })
         .catch(reportExecuteScriptError);

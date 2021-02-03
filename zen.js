@@ -1,42 +1,37 @@
 var hidden = false;
+var videoContainer = document.getElementById("movie_player");
 
-var gradientTop = document.getElementsByClassName('ytp-gradient-top')[0];
-var gradientBtm = document.getElementsByClassName('ytp-gradient-bottom')[0];
-var control = document.getElementsByClassName('ytp-chrome-bottom')[0];
-var topBtns = document.getElementsByClassName('ytp-chrome-top-buttons')[0];
-var title = document.getElementsByClassName('ytp-title')[0];
-var annotation = document.getElementsByClassName('annotation')[0];
-
-// var player =
-//           document.getElementById('movie_player') ||
-//           document.getElementsByTagName('embed')[0];
-
-document.addEventListener('keypress', toggleVisibility);
-
+document.addEventListener('keydown', toggleVisibility);
 function toggleVisibility(e) {
+    if (e.target.id === 'contenteditable-root') return;
     if (e.key === "h"){
-        toggle()
+        toggle();
     }
 }
 
-function hide() {
-    gradientTop.style.display = 'none';
-    gradientBtm.style.display = 'none';
-    control.style.display = 'none';
-    topBtns.style.display = 'none';
-    title.style.display = 'none';
-    annotation.style.display = 'none';
 
+const displayVals = {};
+function hide() {
+    for (let el of videoContainer.children){
+        if (el.classList.contains('html5-video-container')) continue;
+        if (window.getComputedStyle(el).display == 'none') continue;
+        var key = el.id+ ' '+ el.className;
+        displayVals[key] = el.style.display;
+        el.style.display = 'none';
+    }
+    
     hidden = true;
 }
 
 function show() {
-    gradientTop.style.display = '';
-    gradientBtm.style.display = '';
-    control.style.display = '';
-    topBtns.style.display = '';
-    title.style.display = '';
-    annotation.style.display = '';
+    for (let el of videoContainer.children){
+        if (el.classList.contains('html5-video-container')) continue;
+        var key = el.id+ ' '+ el.className;
+        var val  = displayVals[key];
+        if (val === undefined) continue;        
+        el.style.display = val;
+        delete displayVals[key];
+    }
     
     hidden = false;
 }

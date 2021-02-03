@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
     "name": "Youtube Zen",
-    "version": "1.4.0",
+    "version": "1.4.1",
 
-    "description": "Hides or shows the Youtube video controls when paused.",
+    "description": "Hides or shows the Youtube video controls.",
     "homepage_url": "https://github.com/Stevox404/youtube-zen",
     "icons": {
         "48": "icons/zen-min-48.png",
@@ -28,5 +28,5 @@
           "all_frames": true,
           "js": ["zen.js"]
         }
-      ]
+    ]      
 }

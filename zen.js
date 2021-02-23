@@ -1,7 +1,15 @@
 var hidden = false;
-var videoContainer = document.getElementById("movie_player");
 
-document.addEventListener('keydown', toggleVisibility);
+
+setListener();
+
+function setListener() {
+    var videoContainer = document.getElementById("movie_player");
+    if (videoContainer.getAttribute('data-zen-listener') !== 'true') {
+        videoContainer.setAttribute('data-zen-listener', 'true');
+        document.addEventListener('keydown', toggleVisibility);
+    }
+}
 function toggleVisibility(e) {
     if (e.target.id === 'contenteditable-root') return;
     if (e.key === "h"){
@@ -12,8 +20,13 @@ function toggleVisibility(e) {
 
 const displayVals = {};
 function hide() {
+    setListener();
+    var videoContainer = document.getElementById("movie_player");
     for (let el of videoContainer.children){
+        if (el.classList.contains('ytp-cued-thumbnail-overlay')) continue;
         if (el.classList.contains('html5-video-container')) continue;
+        if (el.classList.contains('ytp-upnext')) continue;
+        if (el.classList.contains('ytp-spinner')) continue;
         if (window.getComputedStyle(el).display == 'none') continue;
         var key = el.id+ ' '+ el.className;
         displayVals[key] = el.style.display;
@@ -24,8 +37,12 @@ function hide() {
 }
 
 function show() {
+    var videoContainer = document.getElementById("movie_player");
     for (let el of videoContainer.children){
+        if (el.classList.contains('ytp-cued-thumbnail-overlay')) continue;
         if (el.classList.contains('html5-video-container')) continue;
+        if (el.classList.contains('ytp-upnext')) continue;
+        if (el.classList.contains('ytp-spinner')) continue;
         var key = el.id+ ' '+ el.className;
         var val  = displayVals[key];
         if (val === undefined) continue;        

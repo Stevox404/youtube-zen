@@ -1,6 +1,7 @@
-Firefox Browser Extension to hide or show the Youtube video controls when paused
+## build
 
-Build using 
-  :: 'web-ext build'
- or
-  :: 'web-ext sign --api-key=user:XXX --api-secret=YYY'
+> npx web-ext build
+
+## publish
+
+> export $(cat .env | xargs) && npx web-ext sign --api-key=$API_KEY --api-secret=$API_SECRET

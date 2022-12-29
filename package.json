@@ -1,0 +1,24 @@
+{
+    "name": "youtube-zen",
+    "version": "2.0.0",
+    "description": "Hides or shows the Youtube video controls.",
+    "main": "zen.js",
+    "scripts": {
+        "build": "web-ext build",
+        "publish": "export $(cat .env | xargs) && web-ext sign --api-key=$API_KEY --api-secret=$API_SECRET",
+        "test": "echo \"No test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Stevox404/youtube-zen.git"
+    },
+    "author": "Ben Steve",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Stevox404/youtube-zen/issues"
+    },
+    "homepage": "https://github.com/Stevox404/youtube-zen#readme",
+    "devDependencies": {
+        "web-ext": "^7.4.0"
+    }
+}

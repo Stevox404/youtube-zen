@@ -1,3 +1,4 @@
 .env
 web-ext-artifacts
 todo.txt
+node_modules

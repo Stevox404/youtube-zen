@@ -1,0 +1,26 @@
+* {
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.25px;
+}
+
+.flat-button {
+    border: none;
+    background-color: #0000;
+    cursor: pointer;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 3px;
+    color: #0944f4;
+}
+
+.flat-button:last-child {
+    color: #f40950;
+}
+.flat-button:disabled {
+    color: #0008;
+}
+
+.flat-button:hover:not(:disabled) {
+    background-color: #0944f411;
+}

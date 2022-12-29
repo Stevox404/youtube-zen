@@ -10,10 +10,7 @@
         "96": "icons/zen-min-96.png"
     },
 
-    "permissions": [
-        "activeTab",
-        "*://*.youtube.com/*"
-    ],
+    "permissions": ["activeTab", "*://*.youtube.com/*"],
 
     "browser_action": {
         "browser_style": true,
@@ -24,9 +21,10 @@
 
     "content_scripts": [
         {
-          "matches": ["*://*.youtube.com/*"],
-          "all_frames": true,
-          "js": ["zen.js"]
+            "matches": ["*://*.youtube.com/*"],
+            "all_frames": true,
+            "js": ["zen.js"],
+            "css": ["zen.css"]
         }
-    ]      
+    ]
 }

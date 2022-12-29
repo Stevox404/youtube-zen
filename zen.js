@@ -1,77 +1,69 @@
-var hidden = false;
+window.removeEventListener("keydown", onKeyDownToggleVisibility);
+window.addEventListener("keydown", onKeyDownToggleVisibility);
 
-
-setListener();
-
-function setListener() {
-    var videoContainer = document.getElementById("movie_player");
-    if (videoContainer.getAttribute('data-zen-listener') !== 'true') {
-        videoContainer.setAttribute('data-zen-listener', 'true');
-        document.addEventListener('keydown', toggleVisibility);
-    }
-}
-function toggleVisibility(e) {
-    if (e.target.id === 'contenteditable-root') return;
-    if (e.key === "h"){
-        toggle();
+function onKeyDownToggleVisibility(e) {
+    if (/^(input|textarea)/i.test(e.target.nodeName)) return;
+    if (e.key === "h") {
+        toggleContentVisibility();
     }
 }
 
+console.info("YouTube Zen loaded successfully");
 
-const displayVals = {};
-function hide() {
-    setListener();
-    var videoContainer = document.getElementById("movie_player");
-    for (let el of videoContainer.children){
-        if (el.classList.contains('ytp-cued-thumbnail-overlay')) continue;
-        if (el.classList.contains('html5-video-container')) continue;
-        if (el.classList.contains('ytp-upnext')) continue;
-        if (el.classList.contains('ytp-spinner')) continue;
-        if (window.getComputedStyle(el).display == 'none') continue;
-        var key = el.id+ ' '+ el.className;
-        displayVals[key] = el.style.display;
-        el.style.display = 'none';
+const skipClasses = [
+    "ytp-cued-thumbnail-overlay",
+    "ytp-upnext",
+    "ytp-spinner",
+    "ytp-caption-window-container",
+    "html5-endscreen",
+    "ytp-autonav-endscreen-countdown-overlay",
+];
+
+function toggleContentVisibility(show) {
+    const showContent = show === true || (show !== false && document.body.hasAttribute("data-yt_zen-hidden"));
+
+    const videoContainer = document.querySelector("#movie_player");
+
+    for (const el of videoContainer.children) {
+        if (el.querySelector("video")) continue;
+        let skip = false;
+        for (const skipCls of skipClasses) {
+            if (el.classList.contains(skipCls)) {
+                skip = true;
+                break;
+            }
+        }
+        if (skip) continue;
+
+        if (showContent) {
+            el.classList.remove("yt_zen-hidden");
+        } else {
+            el.classList.add("yt_zen-hidden");
+        }
     }
-    
-    hidden = true;
-}
 
-function show() {
-    var videoContainer = document.getElementById("movie_player");
-    for (let el of videoContainer.children){
-        if (el.classList.contains('ytp-cued-thumbnail-overlay')) continue;
-        if (el.classList.contains('html5-video-container')) continue;
-        if (el.classList.contains('ytp-upnext')) continue;
-        if (el.classList.contains('ytp-spinner')) continue;
-        var key = el.id+ ' '+ el.className;
-        var val  = displayVals[key];
-        if (val === undefined) continue;        
-        el.style.display = val;
-        delete displayVals[key];
-    }
-    
-    hidden = false;
-}
-
-function toggle() {
-    if(hidden){
-        show();
+    if (showContent) {
+        document.body.removeAttribute("data-yt_zen-hidden");
     } else {
-        hide();
+        document.body.setAttribute("data-yt_zen-hidden", "");
     }
+
+    return showContent;
 }
 
 browser.runtime.onMessage.addListener(function (msg) {
     if (msg.command === "show") {
         console.info("Showing YT Controls");
-        show();
-    }
-    else if (msg.command === "hide") {
+        return Promise.resolve(toggleContentVisibility(true));
+    } else if (msg.command === "hide") {
         console.info("Hiding YT Controls");
-        hide();
-    }
-    else if (msg.command === "toggle") {
+        return Promise.resolve(toggleContentVisibility(false));
+    } else if (msg.command === "toggle") {
         console.info("Toggling YT Controls visibility");
-        toggle();
+        return Promise.resolve(toggleContentVisibility());
+    } else if (msg.command === "isContentVisible") {
+        return Promise.resolve(!document.body.hasAttribute("data-yt_zen-hidden"));
+    } else {
+        return Promise.reject("Invalid message");
     }
 });
